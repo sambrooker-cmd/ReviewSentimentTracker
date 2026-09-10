@@ -1,6 +1,6 @@
--- Review & Sentiment Tracker — Supabase schema
+-- Review & Sentiment Tracker - Supabase schema
 -- Run this once in the Supabase SQL editor for a new project.
--- See PLANNING.md §4 for the design rationale.
+-- See PLANNING.md section 4 for the design rationale.
 
 create extension if not exists pgcrypto;
 
