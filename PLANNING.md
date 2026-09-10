@@ -239,8 +239,13 @@ whichever cleared an approval process first:
 
 ## Next step
 
-Nothing blocking — ready to start Phase 1. Tell me if the shared template in
-§3 (source, rating, review_date, reviewer_name, review_text, review_url) is
-easy enough to fill from the Trustpilot/Google dashboards, and I'll scaffold
-the repo: `imports/` folder + template, the parsing/dedupe/Claude-analysis
-Action, the storage schema, and a first pass at the dashboard.
+Phase 1 pipeline is built: `imports/` template, parsing (shared template +
+best-effort Feefo column mapping), dedupe, Claude analysis, rating-trend +
+theme-velocity + import-staleness detectors, GitHub Issue alerting, and the
+two GitHub Actions that run it all. See `SETUP.md` for the three things
+needed before it can actually run (Supabase project + schema, Anthropic API
+key, repo secrets) — none of it code, all one-time account setup.
+
+Not yet built: the dashboard (§9) and the quote-bank approval UI (§7/§10
+Phase 2) — next up once the ingestion side is confirmed working end to end
+with a real import.

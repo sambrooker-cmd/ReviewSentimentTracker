@@ -1,0 +1,49 @@
+name: Import reviews
+
+on:
+  push:
+    paths:
+      - "imports/*.csv"
+    branches:
+      - main
+  workflow_dispatch: {}
+
+concurrency:
+  group: import-reviews
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+
+      - name: Run import pipeline
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run import
+
+      - name: Commit processed file moves
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add imports/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Mark imported review file(s) as processed"
+            git push
+          fi
