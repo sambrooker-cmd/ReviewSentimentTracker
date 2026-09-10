@@ -73,7 +73,7 @@ create table if not exists alerts (
   id uuid primary key default gen_random_uuid(),
   type text not null check (type in ('sentiment_spike', 'theme_spike', 'import_stale')),
   source_id uuid references sources(id),
-  window text,
+  window_label text,
   metric_value numeric,
   threshold numeric,
   summary text not null,

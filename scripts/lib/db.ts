@@ -181,7 +181,7 @@ export async function insertAlert(
   const { error } = await supabase.from("alerts").insert({
     type: alert.type,
     source_id: alert.sourceId,
-    window: alert.window,
+    window_label: alert.window,
     metric_value: alert.metricValue,
     threshold: alert.threshold,
     summary: alert.summary,
